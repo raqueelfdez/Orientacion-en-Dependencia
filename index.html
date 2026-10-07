@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orientador de Dependencia - Andalucía</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Nunito',system-ui,sans-serif;background:linear-gradient(180deg,#f1f7f2 0,#f8fafc 360px)!important}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif}
+.hero{background:linear-gradient(135deg,#0b3d2e 0%,#007A33 60%,#3a9d54 100%);position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;opacity:.13;background-image:linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%),linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%);background-size:36px 36px;background-position:0 0,18px 18px}
+.hero>*{position:relative}
+.card{transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px -12px rgba(0,122,51,.35)}
+.dot{width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;animation:b 1s infinite}.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+@media (prefers-reduced-motion:reduce){.dot,.card{animation:none;transition:none}}
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{background:#f8fafc;margin:0}
+:root{--gt:#007A33}
+html[data-theme=dark]{--gt:#6ee7a0;color-scheme:dark}
+html[data-theme=dark] body{background:#0d1812!important;color:#e2e8f0}
+html[data-theme=dark] .bg-white,html[data-theme=dark] .bg-white\/90{background:#16231b!important}
+html[data-theme=dark] .bg-slate-50{background:#0d1812!important}
+html[data-theme=dark] .bg-slate-100{background:#22312a!important}
+html[data-theme=dark] .bg-slate-200{background:#2b3a32!important}
+html[data-theme=dark] .bg-green-50{background:#1b3326!important}
+html[data-theme=dark] .bg-green-100{background:#24462f!important}
+html[data-theme=dark] .bg-amber-50{background:#3a2f12!important}
+html[data-theme=dark] .text-amber-900{color:#fde68a!important}
+html[data-theme=dark] .border-amber-200{border-color:#5c4a1a!important}
+html[data-theme=dark] .text-slate-800{color:#e8eef0!important}
+html[data-theme=dark] .text-slate-700{color:#d5dde0!important}
+html[data-theme=dark] .text-slate-600{color:#b6c2c7!important}
+html[data-theme=dark] .text-slate-500{color:#9aa8ae!important}
+html[data-theme=dark] .border-slate-100,html[data-theme=dark] .border-slate-200,html[data-theme=dark] .border-slate-300,html[data-theme=dark] .border-green-200{border-color:#2f4036!important}
+html[data-theme=dark] .divide-slate-200>*+*{border-color:#2f4036!important}
+.printonly{display:none}
+@media print{
+ .noprint{display:none!important}.printonly{display:block!important}
+ html,body{background:#fff!important;color:#000!important}
+ *{box-shadow:none!important}
+ .bg-white{background:#fff!important}.text-slate-700,.text-slate-800{color:#000!important}
+ main{padding:0!important;max-width:none!important}
+}
+body{-webkit-tap-highlight-color:transparent}
+@media (max-width:639px){
+ .chatbox{height:calc(100dvh - 150px)!important;min-height:380px!important;border-radius:20px!important}
+ main{padding-bottom:96px!important}
+ input{font-size:16px!important}
+ .acciones{display:grid!important;grid-template-columns:1fr 1fr}
+ .acciones>button{justify-content:center;min-height:48px}
+ .acciones>button:first-child,.acciones>p{grid-column:span 2}
+}
+</style>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+const Ico = () => null; // iconos decorativos omitidos
+const Newspaper=Ico,Compass=Ico,Calculator=Ico,BookOpen=Ico,Euro=Ico,Globe=Ico,Users=Ico,FileCheck2=Ico,Copy=Ico,Check=Ico,AlertTriangle=Ico,RotateCcw=Ico,Home=Ico,Building2=Ico,HandCoins=Ico;
+const ChevronRight=()=><span aria-hidden="true">›</span>, ChevronLeft=()=><span aria-hidden="true">‹</span>;
+
+const G = "#007A33"; // verde andaluz
+
+const NOVEDADES = [
+  { id: 9, tipo: "Normativa estatal", icon: Ico, titulo: "Ley 4/2026: reforma estatal de la dependencia",
+    resumen: "Modifica la Ley 39/2006 y la Ley General de derechos de las personas con discapacidad. Marca un modelo basado en derechos y vida independiente.",
+    detalle: "Cambia el catálogo de servicios, suprime incompatibilidades estatales, agiliza el PIA y encarga nuevos criterios de copago. Es una ley estatal: su aplicación en Andalucía depende del desarrollo reglamentario y de la normativa de la Junta, que sigue vigente mientras no se adapte. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 5, tipo: "Normativa estatal", icon: Ico, titulo: "Dependencia = discapacidad reconocida",
+    resumen: "Grado I se equipara a un 33 % de discapacidad y grados II y III a un 65 %.",
+    detalle: "La equiparación es automática y evita hacer dos trámites. Solo tiene efecto donde una ley lo prevea y no se aplica en el ámbito tributario. La persona puede pedir la valoración de su discapacidad real si le conviene un grado mayor. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 6, tipo: "Servicios", icon: Ico, titulo: "Nuevo catálogo de servicios",
+    resumen: "Teleasistencia como derecho subjetivo, asistencia personal ampliada, viviendas con apoyos y productos de apoyo.",
+    detalle: "Teleasistencia: se reconoce como derecho subjetivo para toda persona en situación de dependencia, con independencia de las demás prestaciones de su PIA según la prensa especializada. Asistencia personal: pasa a ser un servicio del catálogo, sin limitarse al ámbito educativo o laboral. Cuidados y apoyos en viviendas: nuevo servicio con dos modalidades, con y sin alojamiento. Productos de apoyo: nuevo servicio, posible por préstamo o cesión temporal. Promoción de la autonomía personal: se define como servicio. SAD: se amplía al entorno comunitario próximo y podrá organizarse de forma colectiva para un grupo reducido que lo solicite. Centros de día: actividades significativas y posibilidad de ser centros multiservicios. Residencias: entorno más hogareño y uso de sujeciones solo en casos excepcionales de urgencia vital. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 1, tipo: "Cuantías", icon: Ico, titulo: "IPREM y cálculo del copago",
+    resumen: "El IPREM es la referencia para fijar la capacidad económica. La ley estatal encarga nuevos criterios de copago.",
+    detalle: "La ley manda al Consejo Territorial acordar criterios de capacidad económica que excluyan siempre la vivienda habitual y fijen mínimos exentos de renta y patrimonio. El copago no podrá disuadir de usar los servicios ni llevar a usarlos con menos intensidad de la necesaria. Mientras no haya acuerdo, siguen vigentes las reglas actuales. Confirme el IPREM y los umbrales en el BOE y el BOJA. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 3, tipo: "Servicios", icon: Ico, titulo: "Mapa de compatibilidades",
+    resumen: "La ley estatal suprime sus incompatibilidades entre prestaciones, pero mantiene las de cada comunidad.",
+    detalle: "Dentro de las intensidades de cada grado, desaparece el régimen estatal de incompatibilidades para facilitar combinar servicios y prestaciones económicas. No cambia el régimen que ya establecen las comunidades autónomas, que sigue vigente. En Andalucía, hasta que la Junta lo modifique, hay que seguir aplicando sus reglas sobre la combinación de SAD, PECEF y otros recursos. Según la prensa, la combinación se articulará a través del PIA. Confirme cada combinación con Servicios Sociales. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 7, tipo: "Servicios", icon: Ico, titulo: "PECEF: cambios para las familias cuidadoras",
+    resumen: "Se elimina el plazo máximo de suspensión de dos años y se reconocen derechos a la persona cuidadora.",
+    detalle: "La persona cuidadora podrá ser del ámbito familiar o del relacional (por ejemplo, vecindad o amistad). Se incorporan sus derechos. Las PECEF suspendidas antes de la entrada en vigor se reactivan y recuperan su cuantía (disposición adicional décima). Pendiente de ver cómo lo aplica Andalucía. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 4, tipo: "Tramitación ASSDA", icon: Ico, titulo: "PIA, revisión y valoración",
+    resumen: "El PIA y su revisión se agilizan y se pone el foco en la voluntad y las preferencias de la persona.",
+    detalle: "Se explicitan situaciones de especial vulnerabilidad que deben atenderse con urgencia. La escala de valoración específica (EVE) se amplía de los 3 a los 6 años. La ley prevé un nuevo baremo de valoración, una ventanilla única del sistema y mecanismos comunes de acceso a datos sanitarios para agilizar la tramitación. Según la prensa especializada, también reduce de seis a tres meses el plazo para resolver el reconocimiento de la dependencia. Este dato no he podido contrastarlo en el articulado (artículo segundo), así que confírmelo en el BOE. Todo ello necesita desarrollo posterior. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+  { id: 2, tipo: "Tramitación ASSDA", icon: Ico, titulo: "Ventanilla Electrónica de Dependencia",
+    resumen: "Canal telemático para presentar solicitudes, aportar documentos y consultar el estado del expediente.",
+    detalle: "Permite acceder con certificado digital o Cl@ve. Los Servicios Sociales Comunitarios siguen atendiendo de forma presencial a quien no pueda tramitar por vía electrónica. Un acuerdo del Consejo de Gobierno de 6 de mayo de 2026 (BOJA de 13-5-2026) sobre el refuerzo de los Servicios Sociales Comunitarios menciona la Ventanilla Electrónica como vía preferente de entrada de solicitudes. La ley estatal prevé además una ventanilla única del sistema. Compruebe en el portal de la Junta las funcionalidades vigentes." },
+  { id: 8, tipo: "Normativa estatal", icon: Ico, titulo: "Idoneidad de quien cuida",
+    resumen: "Para trabajar con personas con discapacidad o dependencia se exigirá no tener antecedentes por determinados delitos.",
+    detalle: "Afecta a actividades con contacto habitual con estas personas. También se endurecen las infracciones laborales en este ámbito. Revise con la entidad empleadora o el servicio qué certificado debe aportarse una vez entre en vigor. Fuente: Ley 4/2026, de 1 de octubre (BOE núm. 246, 3-10-2026, BOE-A-2026-20528). Entra en vigor a los 20 días de su publicación, el 23 de octubre de 2026. Falta su desarrollo y la adaptación de la normativa andaluza." },
+];
+
+const FILTROS = ["Todas", "Normativa estatal", "Cuantías", "Servicios", "Tramitación ASSDA"];
+
+const GLOSARIO = [
+  ["ASSDA", "Agencia de Servicios Sociales y Dependencia de Andalucía. Gestiona el sistema en la comunidad."],
+  ["PIA", "Programa Individual de Atención. Resolución que fija los servicios o prestaciones concretos que corresponden a la persona."],
+  ["PECEF", "Prestación Económica de Cuidados en el Entorno Familiar. Carácter excepcional, para cuidados por la familia."],
+  ["PEVS", "Prestación Económica Vinculada al Servicio. Ayuda para pagar un servicio privado cuando no hay plaza pública."],
+  ["Teleasistencia", "Servicio de atención y apoyo continuo a distancia. La Ley 4/2026 lo reconoce como derecho subjetivo de toda persona en situación de dependencia."],
+  ["Asistencia personal", "Apoyo de una persona asistente para la vida independiente. La Ley 4/2026 lo incorpora como servicio del catálogo, sin limitarlo al estudio o al trabajo."],
+  ["Consejo Territorial", "Órgano de coordinación entre el Estado y las comunidades. Debe acordar los nuevos criterios de capacidad económica y copago."],
+  ["Copago", "Parte del coste del servicio que paga la persona usuaria, según su capacidad económica."],
+  ["Capacidad económica", "Renta y patrimonio de la persona, ajustados por edad, que determinan la participación en el coste."],
+];
+
+const SAD = {
+  I: { min: 21, max: 30, nota: "Grado I (dependencia moderada)" },
+  II: { min: 31, max: 45, nota: "Grado II (dependencia severa)" },
+  III: { min: 46, max: 70, nota: "Grado III (gran dependencia)" },
+};
+
+const PASOS = [
+  { t: "Estado del expediente", k: "estado", o: [
+    ["sin", "Sin iniciar"], ["valoracion", "Pendiente de valoración de grado"],
+    ["pia", "Grado reconocido, pendiente de PIA"], ["revision", "En revisión por empeoramiento"]] },
+  { t: "Convivencia y red de apoyo", k: "cuidador", o: [
+    ["si_ok", "Cuidador familiar que cumple requisitos de cotización y formación"],
+    ["si_no", "Cuidador familiar que no cumple los requisitos"],
+    ["no", "Sin cuidador principal"]] },
+  { t: "Preferencia de recurso", k: "recurso", o: [
+    ["sad", "Servicio de Ayuda a Domicilio"], ["cd", "Centro de Día / Participación Activa"],
+    ["res", "Atención residencial"], ["pevs", "Prestación Económica Vinculada al Servicio"]] },
+  { t: "Capacidad económica orientativa", k: "renta", o: [
+    ["b1", "Menos de 1 IPREM mensual"], ["b2", "Entre 1 y 2 IPREM"],
+    ["b3", "Entre 2 y 3 IPREM"], ["b4", "Más de 3 IPREM"]] },
+];
+
+const COPAGO = {
+  b1: "Participación nula o mínima. Probable exención en servicios básicos.",
+  b2: "Participación baja. Debe calcularse con la fórmula oficial.",
+  b3: "Participación media. Conviene simular con renta y patrimonio reales.",
+  b4: "Participación alta. En residencia puede acercarse a una parte sustancial del coste.",
+};
+
+function generar(r) {
+  const diag = {
+    sin: "No consta solicitud. El primer paso es iniciar el procedimiento de reconocimiento de la situación de dependencia.",
+    valoracion: "Solicitud presentada. Falta la valoración de grado. Aún no se pueden resolver servicios.",
+    pia: "Grado reconocido. El expediente está a la espera de la resolución del PIA, donde se decide el recurso.",
+    revision: "Hay grado previo. Procede solicitar revisión por empeoramiento con documentación sanitaria actualizada.",
+  }[r.estado];
+  const recs = [];
+  const nombres = { sad: "Servicio de Ayuda a Domicilio (SAD)", cd: "Centro de Día / Centro de Participación Activa", res: "Atención residencial", pevs: "Prestación Económica Vinculada al Servicio (PEVS)" };
+  recs.push(`Recurso preferente: ${nombres[r.recurso]}. Se propone en el PIA, que decide la administración.`);
+  if (r.cuidador === "si_ok") recs.push("PECEF: posible con carácter excepcional, al haber cuidador que cumple requisitos. La Ley 4/2026 permite cuidadores del ámbito relacional y elimina el plazo máximo de suspensión.");
+  if (r.cuidador === "si_no") recs.push("PECEF: no recomendable hasta regularizar alta/cotización y formación del cuidador.");
+  if (r.cuidador === "no") recs.push("Sin cuidador familiar: priorizar servicio profesional (SAD o centro). Valorar teleasistencia.");
+  if (r.recurso === "pevs") recs.push("PEVS: se concede solo cuando no hay plaza o servicio público disponible.");
+  recs.push("Teleasistencia: la Ley 4/2026 la reconoce como derecho subjetivo. Pregunte en Servicios Sociales cuándo y cómo se aplica en Andalucía.");
+  if (r.recurso === "sad") recs.push("SAD: la Ley 4/2026 lo amplía al entorno próximo y permite organizarlo de forma colectiva. Confirme cuándo lo aplica la Junta.");
+  const docs = ["DNI/NIE de la persona y de su representante", "Certificado de empadronamiento", "Informe de Salud (Junta de Andalucía) firmado por su médico", "Datos bancarios", "Declaración de renta o certificado de ingresos y datos patrimoniales", "Acreditación de representación, si procede"];
+  if (r.estado === "revision") docs.push("Informes médicos que acrediten el empeoramiento");
+  if (r.cuidador !== "no") docs.push("Datos de alta en Seguridad Social y formación del cuidador");
+  const vias = ["Servicios Sociales Comunitarios de su zona (presencial, con cita previa)", "Ventanilla Electrónica de Dependencia (certificado digital o Cl@ve)"];
+  return { diag, recs, docs, vias, copago: COPAGO[r.renta] };
+}
+
+function textoPlan(r, res) {
+  const l = (a) => a.map((x) => "- " + x).join("\n");
+  return `PLAN DE INTERVENCIÓN (orientativo)\n\nDIAGNÓSTICO\n${res.diag}\n\nRECURSOS RECOMENDADOS\n${l(res.recs)}\n\nCOPAGO\n${res.copago}\n\nDOCUMENTACIÓN\n${l(res.docs)}\n\nVÍAS DE TRAMITACIÓN\n${l(res.vias)}\n\nAviso: resultado orientativo. Verificar con Servicios Sociales y normativa vigente.`;
+}
+
+
+
+const RESP = [
+  [["solicitud","solicitar","iniciar","inicio","tramitar","tramite","pedir"], "Puedes iniciar la solicitud en los Servicios Sociales Comunitarios de tu zona (con cita previa) o por la Ventanilla Electrónica de Dependencia, con certificado digital o Cl@ve. Suele pedirse DNI, empadronamiento, Informe de Salud y datos bancarios."],
+  [["tras","despues","reconocimiento","grado","pia"], "Tras reconocerse el grado, se elabora el PIA (Programa Individual de Atención), que fija qué servicios o prestaciones te corresponden. La Ley 4/2026 busca agilizarlo y centrarlo en tu voluntad y preferencias. Los plazos reales varían, así que consulta el estado en la Ventanilla Electrónica o en tu centro de Servicios Sociales."],
+  [["pia","programa individual"], "El PIA es la resolución que concreta los recursos que te corresponden según tu grado y situación. Lo decide la administración, no se puede garantizar de antemano."],
+  [["pecef","pevs","diferencia"], "La PECEF es una ayuda excepcional para cuidados en el entorno familiar. La PEVS ayuda a pagar un servicio privado cuando no hay plaza o servicio público disponible. Cuál corresponde lo decide el PIA."],
+  [["pecef","cuidador","cuidadora","familiar","cuidados en el entorno"], "La PECEF es excepcional. La Ley 4/2026 permite que la persona cuidadora sea del ámbito familiar o relacional, incorpora sus derechos y elimina el plazo máximo de suspensión de dos años. Entra en vigor el 23 de octubre de 2026 y falta ver cómo la aplica Andalucía."],
+  [["pevs","vinculada","servicio privado"], "La PEVS se concede solo cuando no hay un servicio público adecuado disponible, y se destina a pagar el servicio privado acreditado."],
+  [["copago","calcula","iprem","capacidad","pagar","coste"], "El copago depende de tu capacidad económica (renta y patrimonio) comparada con el IPREM y del servicio. La Ley 4/2026 encarga al Consejo Territorial nuevos criterios que excluirán la vivienda habitual y fijarán mínimos exentos, pero mientras no haya acuerdo siguen las reglas actuales. Pide una simulación en Servicios Sociales."],
+  [["ley 4","4/2026","reforma","novedad","novedades","entra en vigor","vigor"], "La Ley 4/2026, de 1 de octubre (BOE 3-10-2026), reforma la Ley 39/2006 y la Ley General de discapacidad. Entra en vigor el 23 de octubre de 2026. Trae teleasistencia como derecho subjetivo, fin de las incompatibilidades estatales, nuevos servicios y cambios en la PECEF. Su aplicación en Andalucía depende de su desarrollo."],
+  [["teleasistencia"], "La Ley 4/2026 reconoce la teleasistencia como derecho subjetivo para toda persona en situación de dependencia. Todavía hay que ver cómo y cuándo se aplica en Andalucía. Pregunta en tus Servicios Sociales."],
+  [["sad","ayuda a domicilio","horas","domicilio"], "El SAD se concede por horas mensuales según el grado. Orientativamente: grado I, 21 a 30 h; grado II, 31 a 45 h; grado III, 46 a 70 h. La cifra concreta la fija el PIA. La Ley 4/2026 amplía el SAD al entorno próximo y permite organizarlo de forma colectiva."],
+  [["discapacidad","33","65","equipar","equipara"], "La Ley 4/2026 equipara dependencia grado I con un 33 % de discapacidad y los grados II y III con un 65 %, solo en los ámbitos que la ley prevea y sin efecto tributario. Puedes pedir la valoración de tu discapacidad real si te conviene."],
+  [["compatible","compatibilidad","incompatible","incompatibilidad","combinar"], "La Ley 4/2026 suprime las incompatibilidades estatales entre prestaciones, pero mantiene las de cada comunidad. En Andalucía, hasta que la Junta las cambie, siguen las suyas. Confirma cada combinación con Servicios Sociales."],
+  [["plazo","valoracion","tarda","tiempo","espera"], "Los plazos reales varían por provincia. Según la prensa, la reforma reduce de seis a tres meses el plazo de resolución, pero no lo he podido contrastar en el BOE. Consulta el estado en la Ventanilla Electrónica."],
+  [["ventanilla","electronica","cita","cl@ve","certificado"], "La Ventanilla Electrónica de Dependencia permite presentar la solicitud, aportar documentos y consultar el expediente con certificado digital o Cl@ve. Si no puedes por vía electrónica, los Servicios Sociales Comunitarios te atienden de forma presencial."],
+  [["residencia","centro de dia","centro","residencial"], "Centro de día y residencia son servicios del catálogo. Se proponen en el PIA según tu grado y situación, y suelen llevar copago. La Ley 4/2026 los orienta a un modelo más comunitario y hogareño."],
+  [["asistencia personal"], "La Ley 4/2026 incorpora la asistencia personal como servicio del catálogo, orientada a la vida independiente y sin limitarse al ámbito educativo o laboral. Falta su desarrollo en Andalucía."],
+  [["documento","documentos","documentacion","papeles","necesito"], "Suele pedirse: DNI o NIE, certificado de empadronamiento, Informe de Salud firmado por tu médico, datos bancarios y, para el copago, datos de renta y patrimonio. Si hay representante, su acreditación. Confirma la lista con tu centro de Servicios Sociales."],
+];
+function respuestaLocal(q) {
+  const n = q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  let mejor = null, max = 0;
+  RESP.forEach(([ks, a]) => {
+    const p = ks.filter((k) => n.includes(k.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))).length;
+    if (p > max) { max = p; mejor = a; }
+  });
+  return mejor || "No tengo una respuesta preparada para eso. Puedo ayudarte con solicitud, PIA, SAD, PECEF, PEVS, copago, teleasistencia, documentación y la Ley 4/2026. Para tu caso concreto, acude a los Servicios Sociales de tu zona.";
+}
+
+const SISTEMA = "Te llamas Olivia y eres la asesora virtual experta en el Sistema para la Autonomía y Atención a la Dependencia (SAAD) en Andalucía y en los procedimientos de la Junta de Andalucía (ASSDA, Servicios Sociales Comunitarios, Ventanilla Electrónica, PIA, SAD, PECEF, PEVS, copago). Hablas en español, con tono cercano y claro, en respuestas breves (máximo unos 150 palabras). Si te falta un dato clave, haz una sola pregunta. No inventes cuantías, plazos ni artículos de normas: si no estás seguro, dilo y remite al BOJA, a la sede de la Junta o a los Servicios Sociales de su zona. No des garantías de concesión: el PIA lo resuelve la administración. Conoces la Ley 4/2026, de 1 de octubre (BOE 3-10-2026): equipara dependencia grado I a 33 % de discapacidad y grados II y III a 65 % (sin efecto tributario); reconoce la teleasistencia como derecho subjetivo; añade asistencia personal, viviendas con apoyos y productos de apoyo al catálogo; amplía el SAD al entorno próximo y a la modalidad colectiva; suprime las incompatibilidades estatales pero mantiene las autonómicas; elimina el plazo máximo de suspensión de la PECEF; amplía la EVE a 3-6 años; y encarga al Consejo Territorial nuevos criterios de capacidad económica y copago. Entra en vigor a los 20 días de su publicación (el 23-10-2026) y necesita desarrollo, así que no afirmes que ya se aplica en Andalucía. Según la prensa, reduce de seis a tres meses el plazo de resolución del reconocimiento, dato sin confirmar en el articulado. Eres una herramienta no oficial en pruebas, sin vinculación con la Junta de Andalucía. Responde solo sobre dependencia y servicios sociales.";
+const SUGERENCIAS = ["¿Cómo inicio la solicitud de dependencia?", "¿Qué diferencia hay entre PECEF y PEVS?", "¿Qué pasa tras el reconocimiento del grado?", "¿Cómo se calcula el copago?"];
+
+function Chat() {
+  const [msgs, setMsgs] = useState([{ role: "assistant", content: "¡Hola! Soy Olivia, tu asesora en dependencia. Cuéntame tu situación o elige una pregunta y te oriento." }]);
+  const [txt, setTxt] = useState("");
+  const [busy, setBusy] = useState(false);
+  const fin = React.useRef(null);
+  React.useEffect(() => { fin.current && fin.current.scrollIntoView({ block: "end" }); }, [msgs]);
+
+  const enviar = async (t) => {
+    const q = (t || txt).trim();
+    if (!q || busy) return;
+    setTxt(""); setBusy(true);
+    const hist = [...msgs, { role: "user", content: q }];
+    setMsgs([...hist, { role: "assistant", content: "" }]);
+    const poner = (c) => setMsgs([...hist, { role: "assistant", content: c }]);
+    try {
+      await new Promise((r) => setTimeout(r, 600));
+      poner(respuestaLocal(q));
+    } catch (e) {
+      poner(e && e.code === "not_granted" ? "Necesito tu permiso para responder. Vuelve a enviar el mensaje y acéptalo." : "No he podido responder. Inténtalo de nuevo en un momento.");
+    }
+    setBusy(false);
+  };
+
+  return (
+    <section className="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden flex flex-col chatbox" style={{ height: "74vh", minHeight: 460 }}>
+      <div className="hero text-white px-5 py-4 flex items-center gap-3">
+        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl shadow" aria-hidden="true">🫒</div>
+        <div>
+          <h2 className="text-xl font-bold leading-none">Olivia</h2>
+          <p className="text-sm text-green-50 mt-1"><span className="inline-block w-2 h-2 rounded-full bg-lime-300 mr-1.5" />Tu asesora en dependencia · Andalucía</p>
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50" aria-live="polite">
+        {msgs.map((m, i) => (
+          <div key={i} className={"flex items-end gap-2 " + (m.role === "user" ? "justify-end" : "justify-start")}>
+            {m.role !== "user" && <div className="w-8 h-8 shrink-0 rounded-full bg-green-100 flex items-center justify-center" aria-hidden="true">🫒</div>}
+            <div className={"max-w-[80%] px-4 py-3 whitespace-pre-wrap shadow-sm " + (m.role === "user" ? "text-white rounded-2xl rounded-br-md" : "bg-white text-slate-800 rounded-2xl rounded-bl-md border border-slate-100")} style={m.role === "user" ? { background: "linear-gradient(135deg,#007A33,#2f9a50)" } : {}}>
+              {m.content || <span><span className="dot" /> <span className="dot" /> <span className="dot" /></span>}
+            </div>
+          </div>))}
+        <div ref={fin} />
+      </div>
+      {msgs.length === 1 && (
+        <div className="px-4 py-3 flex flex-wrap gap-2 bg-slate-50">
+          {SUGERENCIAS.map((s) => (<button key={s} onClick={() => enviar(s)} className="text-sm font-semibold px-4 py-2 rounded-full bg-white border border-green-200 hover:bg-green-50" style={{ color: "var(--gt)" }}>{s}</button>))}
+        </div>)}
+      <div className="p-3 flex gap-2 bg-white border-t border-slate-100">
+        <input value={txt} onChange={(e) => setTxt(e.target.value)} onKeyDown={(e) => e.key === "Enter" && enviar()} placeholder="Escribe tu pregunta a Olivia…" aria-label="Mensaje"
+          className="flex-1 bg-slate-100 rounded-full px-5 py-3 focus:outline-none focus:ring-4 focus:ring-green-300" />
+        <button onClick={() => enviar()} disabled={busy || !txt.trim()} aria-label="Enviar" className="w-12 h-12 rounded-full text-white text-xl disabled:opacity-40 focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300" style={{ background: G }}>➤</button>
+      </div>
+      <p className="text-xs text-slate-500 px-5 pb-3 bg-white">Respuestas preparadas de antemano, sin IA. Son orientativas: verifica con Servicios Sociales o en la sede de la Junta.</p>
+    </section>
+  );
+}
+
+function App() {
+  const [tab, setTab] = useState("nov");
+  const [filtro, setFiltro] = useState("Todas");
+  const [abierta, setAbierta] = useState(null);
+  const [paso, setPaso] = useState(0);
+  const [resp, setResp] = useState({});
+  const [copiado, setCopiado] = useState(false);
+  const [grado, setGrado] = useState("II");
+  const [nivel, setNivel] = useState(50);
+  const [oscuro, setOscuro] = useState(() => {
+    try { const t = localStorage.getItem("tema"); if (t) return t === "dark"; } catch (e) {}
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+  React.useEffect(() => {
+    document.documentElement.dataset.theme = oscuro ? "dark" : "light";
+    try { localStorage.setItem("tema", oscuro ? "dark" : "light"); } catch (e) {}
+  }, [oscuro]);
+  React.useEffect(() => { window.scrollTo(0, 0); }, [tab]);
+  const [aviso, setAviso] = useState("");
+  const descargar = async () => {
+    try {
+      if (!window.claude) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([textoPlan(resp, res)], { type: "text/plain" }));
+        a.download = "plan-de-intervencion.txt"; document.body.appendChild(a); a.click(); a.remove();
+        return;
+      }
+      const d = await window.claude.use("downloads");
+      if (!d) { setAviso("La descarga no está disponible aquí. Usa Copiar o Imprimir."); return; }
+      await d.save({ filename: "plan-de-intervencion.txt", data: new Blob([textoPlan(resp, res)], { type: "text/plain" }) });
+    } catch (e) { if (!e || e.code !== "declined") setAviso("No se pudo descargar. Usa Copiar o Imprimir."); }
+  };
+  const imprimir = () => { try { window.print(); } catch (e) { setAviso("No se pudo abrir la impresión. Usa Descargar o Copiar."); } };
+
+  const tabs = [["nov", "Novedades", "📰"], ["asi", "Asistente de situación", "🧭"], ["bot", "Habla con Olivia", "🫒"], ["rec", "Calculadora y glosario", "🧮"]];
+  const fin = paso >= PASOS.length;
+  const res = fin ? generar(resp) : null;
+
+  const copiar = async () => {
+    const t = textoPlan(resp, res);
+    try { await navigator.clipboard.writeText(t); }
+    catch { const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select(); document.execCommand("copy"); a.remove(); }
+    setCopiado(true); setTimeout(() => setCopiado(false), 2000);
+  };
+
+  const focus = "focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300";
+  const Lista = ({ items }) => (
+    <ul className="space-y-1.5 text-slate-700">{items.map((x, i) => (
+      <li key={i} className="flex gap-2"><Check size={16} className="mt-1 shrink-0" style={{ color: "var(--gt)" }} /><span>{x}</span></li>))}</ul>
+  );
+
+  const sad = SAD[grado];
+  const horas = Math.round(sad.min + ((sad.max - sad.min) * nivel) / 100);
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800">
+      <header className="hero text-white noprint">
+        <div className="max-w-4xl mx-auto px-5 pt-6 pb-8 sm:pt-10 sm:pb-14">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-sm">🧪 Herramienta no oficial · en pruebas · Octubre 2026</p>
+            <button onClick={() => setOscuro(!oscuro)} aria-pressed={oscuro} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{oscuro ? "☀️ Modo claro" : "🌙 Modo oscuro"}</button>
+          </div>
+          <h1 className="text-3xl sm:text-5xl font-bold leading-tight max-w-2xl">Tu camino en la dependencia, paso a paso</h1>
+          <p className="mt-4 text-green-50 text-base sm:text-lg max-w-xl">Una guía clara para familias y profesionales de Andalucía: solicitud, PIA, recursos y copago.</p>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <button onClick={() => setTab("bot")} className={`flex-1 sm:flex-none px-5 py-3 rounded-full bg-white font-bold shadow-lg ${focus}`} style={{ color: "var(--gt)" }}>🫒 Hablar con Olivia</button>
+            <button onClick={() => { setTab("asi"); }} className={`flex-1 sm:flex-none px-5 py-3 rounded-full border-2 border-white/70 font-bold hover:bg-white/10 ${focus}`}>Empezar orientación</button>
+          </div>
+        </div>
+      </header>
+      <nav className="noprint hidden sm:block sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-slate-200" aria-label="Secciones">
+        <div className="max-w-4xl mx-auto px-4 py-2 flex gap-2 overflow-x-auto">
+          {tabs.map(([id, n, e]) => (
+            <button key={id} onClick={() => setTab(id)} aria-current={tab === id}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold whitespace-nowrap ${focus} ${tab === id ? "text-white shadow" : "text-slate-600 hover:bg-slate-100"}`}
+              style={tab === id ? { background: G } : {}}><span aria-hidden="true">{e}</span>{n}</button>))}
+        </div>
+      </nav>
+
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <div className="noprint flex gap-2 items-start bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 text-sm mb-6" role="note">
+          <AlertTriangle size={18} className="shrink-0 mt-0.5" />
+          <p>Herramienta orientativa. Cuantías, plazos y compatibilidades deben comprobarse en el BOJA, en la sede de la Junta y con los Servicios Sociales antes de aplicarlos a un caso real.</p>
+        </div>
+
+        {tab === "nov" && (
+          <section>
+            <div className="flex flex-wrap gap-2 mb-4" role="group" aria-label="Filtrar por tipo">
+              {FILTROS.map((f) => (
+                <button key={f} onClick={() => { setFiltro(f); setAbierta(null); }} aria-pressed={filtro === f}
+                  className={`px-3 py-1.5 rounded-full text-sm border ${focus} ${filtro === f ? "text-white border-transparent" : "bg-white border-slate-300 hover:border-slate-500"}`}
+                  style={filtro === f ? { background: G } : {}}>{f}</button>))}
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {NOVEDADES.filter((n) => filtro === "Todas" || n.tipo === filtro).map((n) => {
+                const open = abierta === n.id; const I = n.icon;
+                return (
+                  <article key={n.id} className="card bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-green-50 rounded-full px-3 py-1" style={{ color: "var(--gt)" }}><span aria-hidden="true">{{"Cuantías":"💶","Servicios":"🤝","Normativa estatal":"⚖️"}[n.tipo] || "📋"}</span>{n.tipo}</span>
+                    <h2 className="font-bold text-xl mt-3">{n.titulo}</h2>
+                    <p className="text-slate-600 mt-1">{n.resumen}</p>
+                    {open && <p className="mt-3 text-slate-700 bg-green-50 rounded-xl p-4 text-sm">{n.detalle}</p>}
+                    <button onClick={() => setAbierta(open ? null : n.id)} aria-expanded={open}
+                      className={`mt-3 text-sm font-semibold underline rounded ${focus}`} style={{ color: "var(--gt)" }}>
+                      {open ? "Ocultar detalle" : "Ver detalle"}</button>
+                  </article>);
+              })}
+            </div>
+          </section>
+        )}
+
+        {tab === "bot" && <Chat />}
+
+        {tab === "asi" && (
+          <section className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            {!fin ? (
+              <>
+                <div className="flex items-center justify-between mb-2 text-sm text-slate-500">
+                  <span>Paso {paso + 1} de {PASOS.length}</span>
+                  <span>{PASOS[paso].t}</span>
+                </div>
+                <div className="h-2 bg-slate-200 rounded-full mb-5" role="progressbar" aria-valuenow={paso + 1} aria-valuemax={PASOS.length}>
+                  <div className="h-2 rounded-full transition-all" style={{ width: `${((paso + 1) / PASOS.length) * 100}%`, background: G }} />
+                </div>
+                <h2 className="text-xl font-bold mb-3">{PASOS[paso].t}</h2>
+                <div className="grid gap-2" role="radiogroup" aria-label={PASOS[paso].t}>
+                  {PASOS[paso].o.map(([v, n]) => {
+                    const sel = resp[PASOS[paso].k] === v;
+                    return (
+                      <button key={v} role="radio" aria-checked={sel} onClick={() => setResp({ ...resp, [PASOS[paso].k]: v })}
+                        className={`text-left px-5 py-4 rounded-2xl border-2 ${focus} ${sel ? "bg-green-50 font-semibold" : "border-slate-200 hover:border-slate-400"}`}
+                        style={sel ? { borderColor: G } : {}}>{n}</button>);
+                  })}
+                </div>
+                <div className="flex justify-between mt-6">
+                  <button disabled={paso === 0} onClick={() => setPaso(paso - 1)}
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg border border-slate-300 disabled:opacity-40 ${focus}`}><ChevronLeft size={16} />Anterior</button>
+                  <button disabled={!resp[PASOS[paso].k]} onClick={() => setPaso(paso + 1)}
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-white disabled:opacity-40 ${focus}`} style={{ background: G }}>
+                    {paso === PASOS.length - 1 ? "Ver resultado" : "Siguiente"}<ChevronRight size={16} /></button>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-5">
+                <h2 className="text-xl font-bold">Resultado de la orientación</h2>
+                <p className="printonly text-sm">Plan de intervención orientativo · {new Date().toLocaleDateString("es-ES")}</p>
+                <div><h3 className="font-semibold mb-1">Diagnóstico</h3><p className="text-slate-700">{res.diag}</p></div>
+                <div><h3 className="font-semibold mb-1">Recursos recomendados</h3><Lista items={res.recs} /></div>
+                <div><h3 className="font-semibold mb-1 flex items-center gap-1"><HandCoins size={16} />Copago orientativo</h3><p className="text-slate-700">{res.copago}</p></div>
+                <div><h3 className="font-semibold mb-1">Documentación a presentar</h3><Lista items={res.docs} /></div>
+                <div><h3 className="font-semibold mb-1">Vías de tramitación</h3><Lista items={res.vias} /></div>
+                <div className="noprint acciones flex flex-wrap gap-2 pt-2">
+                  <button onClick={copiar} className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white ${focus}`} style={{ background: G }}>
+                    {copiado ? <Check size={16} /> : <Copy size={16} />}{copiado ? "Plan copiado" : "Copiar plan de intervención"}</button>
+                  <button onClick={() => { setPaso(0); setResp({}); }} className={`flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 ${focus}`}><RotateCcw size={16} />Empezar de nuevo</button>
+                  <button onClick={imprimir} className={`flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 ${focus}`}>🖨️ Imprimir</button>
+                  <button onClick={descargar} className={`flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-300 ${focus}`}>⬇️ Descargar .txt</button>
+                  {aviso && <p className="w-full text-sm text-amber-700" role="status">{aviso}</p>}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {tab === "rec" && (
+          <section className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+              <h2 className="text-xl font-bold flex items-center gap-2"><Home size={20} style={{ color: "var(--gt)" }} />Simulador de horas de SAD al mes</h2>
+              <p className="text-sm text-slate-500 mb-3">Intensidades orientativas por grado. La cifra concreta la fija el PIA.</p>
+              <div className="flex gap-2 mb-4" role="group" aria-label="Grado">
+                {Object.keys(SAD).map((g) => (
+                  <button key={g} onClick={() => setGrado(g)} aria-pressed={grado === g}
+                    className={`px-4 py-2 rounded-lg border-2 font-semibold ${focus} ${grado === g ? "text-white border-transparent" : "border-slate-300"}`}
+                    style={grado === g ? { background: G } : {}}>Grado {g}</button>))}
+              </div>
+              <label className="block text-sm font-medium mb-1" htmlFor="niv">Necesidad de apoyo dentro del grado</label>
+              <input id="niv" type="range" min="0" max="100" value={nivel} onChange={(e) => setNivel(+e.target.value)} className="w-full" style={{ accentColor: G }} />
+              <div className="mt-4 rounded-lg bg-green-50 p-4">
+                <p className="text-sm text-slate-600">{sad.nota}: de {sad.min} a {sad.max} horas al mes</p>
+                <p className="text-3xl font-bold" style={{ color: "var(--gt)" }}>{horas} h/mes</p>
+                <p className="text-sm text-slate-600">Unas {(horas / 4.345).toFixed(1)} horas por semana</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+              <h2 className="text-xl font-bold flex items-center gap-2 mb-3"><BookOpen size={20} style={{ color: "var(--gt)" }} />Glosario</h2>
+              <dl className="divide-y divide-slate-200">
+                {GLOSARIO.map(([t, d]) => (
+                  <div key={t} className="py-2"><dt className="font-semibold" style={{ color: "var(--gt)" }}>{t}</dt><dd className="text-slate-700">{d}</dd></div>))}
+              </dl>
+            </div>
+          </section>
+        )}
+      </main>
+      <footer className="noprint max-w-4xl mx-auto px-5 pb-28 sm:pb-10 text-xs text-slate-500 text-center">
+        Herramienta informativa no oficial, en pruebas. Sin vinculación con la Junta de Andalucía ni con la ASSDA. No sustituye el asesoramiento de Servicios Sociales. No se guarda ningún dato personal.
+      </footer>
+      <nav className="noprint sm:hidden fixed bottom-0 inset-x-0 z-20 bg-white/90 backdrop-blur border-t border-slate-200 grid grid-cols-4" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }} aria-label="Secciones">
+        {tabs.map(([id, n, e]) => (
+          <button key={id} onClick={() => setTab(id)} aria-current={tab === id}
+            className={`flex flex-col items-center gap-0.5 py-2 text-xs font-bold ${focus} ${tab === id ? "" : "text-slate-500"}`}
+            style={tab === id ? { color: "var(--gt)", boxShadow: "inset 0 3px 0 " + G } : {}}>
+            <span className="text-xl" aria-hidden="true">{e}</span>{{ nov: "Novedades", asi: "Situación", bot: "Olivia", rec: "Recursos" }[id]}
+          </button>))}
+      </nav>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script></body></html>
