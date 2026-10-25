@@ -23,7 +23,7 @@
 body{font-family:'Nunito',system-ui,sans-serif;background:linear-gradient(180deg,#f1f7f2 0,#f8fafc 360px)!important}
 h1,h2,h3{font-family:'Fraunces',Georgia,serif}
 .hero{background:linear-gradient(135deg,#0b3d2e 0%,#007A33 60%,#3a9d54 100%);position:relative;overflow:hidden}
-.hero:before{content:"";position:absolute;inset:0;opacity:.13;background-image:linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%),linear-gradient(45deg,#fff 25%,transparent 25%,transparent 75%,#fff 75%);background-size:36px 36px;background-position:0 0,18px 18px}
+.hero:before{content:"";position:absolute;inset:0;opacity:.5;background-image:radial-gradient(circle at 85% 20%,rgba(255,255,255,.18),transparent 45%),radial-gradient(circle at 10% 110%,rgba(163,230,53,.22),transparent 40%),radial-gradient(rgba(255,255,255,.10) 1.5px,transparent 1.6px);background-size:auto,auto,22px 22px}
 .hero>*{position:relative}
 .card{transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px -12px rgba(0,122,51,.35)}
 .dot{width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;animation:b 1s infinite}.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
@@ -51,6 +51,9 @@ html[data-theme=dark] .divide-slate-200>*+*{border-color:#2f4036!important}
 html[data-facil="1"] body{font-size:20px;line-height:1.85;letter-spacing:.01em}
 html[data-facil="1"] .text-sm{font-size:1.05rem!important;line-height:1.8!important}
 html[data-facil="1"] .text-xs{font-size:.95rem!important}
+main{scroll-margin-top:56px}
+.hero-c{transition:padding .2s}
+html[data-theme=dark] .border-amber-300{border-color:#7a6220!important}
 .printonly{display:none}
 @media print{
  .noprint{display:none!important}.printonly{display:block!important}
@@ -289,7 +292,7 @@ function Chat() {
   const [txt, setTxt] = useState("");
   const [busy, setBusy] = useState(false);
   const fin = React.useRef(null);
-  React.useEffect(() => { fin.current && fin.current.scrollIntoView({ block: "end" }); }, [msgs]);
+  React.useEffect(() => { if (msgs.length > 1 && fin.current) fin.current.scrollIntoView({ block: "nearest" }); }, [msgs]);
 
   const enviar = async (t, idx) => {
     const q = (t || txt).trim();
@@ -331,10 +334,10 @@ function Chat() {
         const lista = msgs.length === 1 ? SITUACIONES : (ult.seg || SEG_BASE).filter((i) => TIT[i]).map((i) => [TIT[i], i]);
         if (busy || !ult || ult.role !== "assistant" || !ult.content) return null;
         return (
-          <div className="px-4 py-3 bg-slate-50 border-t border-slate-100">
+          <div className="px-4 py-3 bg-slate-50 border-t border-slate-100 max-h-[32vh] sm:max-h-none overflow-y-auto">
             <p className="text-xs font-bold text-slate-500 mb-2">{msgs.length === 1 ? "¿En qué situación estás?" : "Puede que también te interese:"}</p>
             <div className="flex flex-wrap gap-2">
-              {lista.map(([l, i]) => (<button key={l} onClick={() => enviar(l, i)} className="text-sm font-semibold px-4 py-2 rounded-full bg-white border border-green-200 hover:bg-green-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300" style={{ color: "var(--gt)" }}>{l}</button>))}
+              {lista.map(([l, i]) => (<button key={l} onClick={() => enviar(l, i)} className="text-[13px] sm:text-sm font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white border border-green-200 hover:bg-green-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300" style={{ color: "var(--gt)" }}>{l}</button>))}
             </div>
           </div>);
       })()}
@@ -372,7 +375,14 @@ function App() {
     document.documentElement.dataset.theme = oscuro ? "dark" : "light";
     try { localStorage.setItem("tema", oscuro ? "dark" : "light"); } catch (e) {}
   }, [oscuro]);
-  React.useEffect(() => { window.scrollTo(0, 0); }, [tab]);
+  const mainRef = React.useRef(null);
+  const primera = React.useRef(true);
+  React.useEffect(() => {
+    if (primera.current) { primera.current = false; return; }
+    const el = mainRef.current;
+    if (el) { const y = el.getBoundingClientRect().top + window.scrollY - (window.innerWidth >= 640 ? 56 : 8); window.scrollTo({ top: Math.max(0, y), behavior: "smooth" }); }
+  }, [tab]);
+  const [avisoAbierto, setAvisoAbierto] = useState(false);
   const [aviso, setAviso] = useState("");
   const descargar = async () => {
     try {
@@ -413,19 +423,19 @@ function App() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
       <header className="hero text-white noprint">
-        <div className="max-w-4xl mx-auto px-5 pt-6 pb-8 sm:pt-10 sm:pb-14">
+        <div className={"hero-c max-w-4xl mx-auto px-5 " + (tab === "nov" ? "pt-6 pb-8 sm:pt-10 sm:pb-14" : "pt-4 pb-4 sm:pt-6 sm:pb-6")}>
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-sm">🧭 Guía orientativa · Proyecto independiente · en pruebas · Oct 2026</p>
+            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-xs sm:text-sm">🧭 Guía orientativa <span className="hidden sm:inline">· Proyecto independiente ·</span> <span className="sm:hidden">independiente ·</span> en pruebas · Oct 2026</p>
             <div className="flex gap-2">
             <button onClick={() => setFacil(!facil)} aria-pressed={facil} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{facil ? "✅ Lectura fácil" : "🔤 Lectura fácil"}</button>
             <button onClick={() => setOscuro(!oscuro)} aria-pressed={oscuro} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{oscuro ? "☀️ Modo claro" : "🌙 Modo oscuro"}</button>
             </div>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold leading-tight max-w-2xl">Tu camino en la dependencia, paso a paso</h1>
-          <p className="mt-4 text-green-50 text-base sm:text-lg max-w-xl">Una guía clara para familias y profesionales de Andalucía: solicitud, PIA, recursos y copago.</p>
-          <div className="flex flex-wrap gap-3 mt-6">
-            <button onClick={() => setTab("bot")} className={`flex-1 sm:flex-none px-5 py-3 rounded-full bg-white font-bold shadow-lg ${focus}`} style={{ color: "var(--gt)" }}>🫒 Hablar con Olivia</button>
-            <button onClick={() => { setTab("asi"); }} className={`flex-1 sm:flex-none px-5 py-3 rounded-full border-2 border-white/70 font-bold hover:bg-white/10 ${focus}`}>Empezar orientación</button>
+          <h1 className={"font-bold leading-tight max-w-2xl " + (tab === "nov" ? "text-3xl sm:text-5xl" : "text-xl sm:text-3xl")}>Tu camino en la dependencia, paso a paso</h1>
+          <p className={"mt-4 text-green-50 text-base sm:text-lg max-w-xl " + (tab === "nov" ? "" : "hidden")}>Una guía clara para familias y profesionales de Andalucía: solicitud, PIA, recursos y copago.</p>
+          <div className={"flex flex-wrap gap-3 mt-6 " + (tab === "nov" ? "" : "hidden")}>
+            <button onClick={() => setTab("bot")} className={`flex-1 sm:flex-none px-4 sm:px-5 py-3 rounded-full bg-white font-bold shadow-lg text-sm sm:text-base ${focus}`} style={{ color: "var(--gt)" }}>🫒 Hablar con Olivia</button>
+            <button onClick={() => { setTab("asi"); }} className={`flex-1 sm:flex-none px-4 sm:px-5 py-3 rounded-full border-2 border-white/70 font-bold text-sm sm:text-base hover:bg-white/10 ${focus}`}>Empezar orientación</button>
           </div>
         </div>
       </header>
@@ -438,10 +448,12 @@ function App() {
         </div>
       </nav>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="noprint flex gap-2 items-start bg-amber-50 border-2 border-amber-300 text-amber-900 rounded-2xl p-4 text-sm mb-6" role="note">
-          <AlertTriangle size={18} className="shrink-0 mt-0.5" />
-          <div><p className="font-bold text-base">🧭 Esto es una orientación, no la verdad absoluta</p><p className="mt-1">Es un proyecto personal e independiente, sin relación con la Junta de Andalucía ni con ninguna administración. Resume normas y trámites para ayudarte a situarte, pero no valora tu caso ni sustituye a los Servicios Sociales. Las normas y los datos cambian y puede haber errores. Antes de decidir nada, comprueba en el BOE, el BOJA y la web de la Junta, y consulta con tus Servicios Sociales.</p></div>
+      <main ref={mainRef} className="max-w-4xl mx-auto px-4 py-6 sm:py-8">
+        <div className={"noprint bg-amber-50 border-2 border-amber-300 text-amber-900 rounded-2xl p-4 text-sm mb-5" + (tab === "bot" ? " hidden sm:block" : "")} role="note">
+          <p className="font-bold text-base">🧭 Orientación, no la verdad absoluta</p>
+          <p className="mt-1">Proyecto independiente, sin relación con la Junta de Andalucía. No valora tu caso: confirma siempre en el BOE, el BOJA y con tus Servicios Sociales.{" "}
+            <button onClick={() => setAvisoAbierto(!avisoAbierto)} aria-expanded={avisoAbierto} className={"underline font-bold " + focus}>{avisoAbierto ? "Leer menos" : "Leer más"}</button></p>
+          {avisoAbierto && <p className="mt-2">Es un proyecto personal e independiente, sin relación, encargo ni respaldo de la Junta de Andalucía ni de ninguna administración. Resume normas y trámites para ayudarte a situarte, pero no sustituye a los Servicios Sociales. Las normas y los datos cambian y puede haber errores. Antes de decidir nada, comprueba en el BOE, el BOJA y la web de la Junta.</p>}
         </div>
 
         {tab === "nov" && (
