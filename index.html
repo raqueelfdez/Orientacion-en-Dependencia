@@ -178,6 +178,25 @@ function textoPlan(r, res) {
 
 
 
+
+const PROVINCIAS = [["Almería","almeria"],["Cádiz","cadiz"],["Córdoba","cordoba"],["Granada","granada"],["Huelva","huelva"],["Jaén","jaen"],["Málaga","malaga"],["Sevilla","sevilla"]];
+const DELEG = "https://www.juntadeandalucia.es/organismos/serviciossocialesfamiliaseigualdad/consejeria/delegaciones/";
+const DOCS = [
+  "DNI o NIE de la persona solicitante (y del representante, si lo hay)",
+  "Certificado de empadronamiento",
+  "Informe de Salud firmado por su médico de familia",
+  "Datos bancarios (titularidad de la persona solicitante)",
+  "Datos de renta y patrimonio, necesarios para calcular el copago",
+  "Documento que acredite la representación o las medidas de apoyo, si procede",
+  "Resolución de discapacidad, si ya la tiene",
+  "Certificado digital o Cl@ve, si va a tramitar por la Ventanilla Electrónica",
+];
+const CALENDARIO = [
+  ["23 oct 2026", "Entra en vigor la Ley 4/2026", "Plazo máximo de 3 meses para resolver el reconocimiento. Si pasan 6 meses sin resolución expresa, el derecho de acceso a las prestaciones se genera igualmente. Las PECEF suspendidas se reactivan."],
+  ["23 abr 2027", "Seis meses desde la entrada en vigor", "El Consejo Territorial, o el órgano autonómico, debe acordar criterios comunes de apoyo a las personas cuidadoras no profesionales."],
+  ["23 oct 2027", "Un año desde la entrada en vigor", "Plazo para que el Gobierno y las administraciones desarrollen varias medidas previstas (nuevo baremo de valoración, entre otras)."],
+];
+
 const RESP = [
   [["solicitud","solicitar","iniciar","inicio","tramitar","tramite","pedir"], "Puedes iniciar la solicitud en los Servicios Sociales Comunitarios de tu zona (con cita previa) o por la Ventanilla Electrónica de Dependencia, con certificado digital o Cl@ve. Suele pedirse DNI, empadronamiento, Informe de Salud y datos bancarios."],
   [["tras","despues","reconocimiento","grado","pia"], "Tras reconocerse el grado, se elabora el PIA (Programa Individual de Atención), que fija qué servicios o prestaciones te corresponden. La Ley 4/2026 busca agilizarlo y centrarlo en tu voluntad y preferencias. Los plazos reales varían, así que consulta el estado en la Ventanilla Electrónica o en tu centro de Servicios Sociales."],
@@ -205,9 +224,10 @@ const RESP = [
   [["representante","tutor","curador","guardador","no puede firmar","apoyo judicial","medidas de apoyo"], "Si la persona no puede hacer el trámite sola, puede actuar su representante legal o quien ejerza las medidas de apoyo a su capacidad jurídica, acreditándolo. La Ley 4/2026 insiste en que se respete su voluntad, deseos y preferencias. Es orientativo: confirma la documentación con Servicios Sociales."],
   [["urgente","urgencia","vulnerable","vulnerabilidad","violencia","aislamiento"], "La Ley 4/2026 prevé tramitar de urgencia el expediente cuando la intersección de factores económicos, de accesibilidad, de vivienda, de salud, de aislamiento social, de régimen penitenciario o de violencia de género o sexual sitúe a la persona en especial vulnerabilidad. Cuéntalo al iniciar el trámite para que quede constancia."],
   [["gracias","hola","buenas","buenos dias","buenas tardes"], "¡Aquí estoy! Elige una de las preguntas de abajo o escríbeme tu situación con tus palabras."],
+  [["telefono","telefonos","llamar","012","contacto","contactar","atencion","informacion general","cita previa","donde acudir","donde ir"], "Teléfonos de la Junta: 900 166 170 para información general sobre la Ley de Dependencia, y 012 o 955 012 012 para consultas sobre un expediente concreto, con cita previa. La cita se pide por teléfono o en tuturno.juntadeandalucia.es (Atención a la Dependencia). En la pestaña Recursos tienes los enlaces por provincia. Comprueba los datos en la web de la Junta."],
 ];
-const TIT = ["Cómo solicitarla","Qué pasa tras el grado","Qué es el PIA","PECEF o PEVS","Cuidar a un familiar (PECEF)","PEVS","Cómo se calcula el copago","Impuestos (IRPF)","Qué cambia con la Ley 4/2026","Teleasistencia","Horas de ayuda a domicilio","Equiparación con discapacidad","Combinar prestaciones","Plazos","Ventanilla Electrónica","Centro de día y residencia","Asistencia personal","Documentos necesarios","Revisar el grado","Recurrir una resolución","Si no hay plaza","Cambio de residencia","Seguridad Social de la cuidadora","Si no puede firmar (representante)","Casos urgentes",""];
-const SEG = [[17,14,13],[2,20,6],[20,3,19],[4,5,12],[22,7,6],[20,6,15],[15,10,17],[4,8,6],[13,4,9],[10,16,12],[6,12,2],[8,7,0],[3,2,10],[24,0,19],[17,0,13],[6,20,2],[2,12,6],[0,23,14],[17,19,13],[18,13,20],[5,3,19],[0,2,17],[4,7,8],[0,17,2],[0,13,23],[0,1,8]];
+const TIT = ["Cómo solicitarla","Qué pasa tras el grado","Qué es el PIA","PECEF o PEVS","Cuidar a un familiar (PECEF)","PEVS","Cómo se calcula el copago","Impuestos (IRPF)","Qué cambia con la Ley 4/2026","Teleasistencia","Horas de ayuda a domicilio","Equiparación con discapacidad","Combinar prestaciones","Plazos","Ventanilla Electrónica","Centro de día y residencia","Asistencia personal","Documentos necesarios","Revisar el grado","Recurrir una resolución","Si no hay plaza","Cambio de residencia","Seguridad Social de la cuidadora","Si no puede firmar (representante)","Casos urgentes","","Teléfonos y cita previa"];
+const SEG = [[26,17,14],[2,20,6],[20,3,19],[4,5,12],[22,7,6],[20,6,15],[15,10,17],[4,8,6],[13,4,9],[10,16,12],[6,12,2],[8,7,0],[3,2,10],[24,0,19],[17,0,13],[6,20,2],[2,12,6],[0,23,14],[17,19,13],[18,13,20],[5,3,19],[0,2,17],[4,7,8],[0,17,2],[0,13,23],[0,1,8],[0,14,17]];
 const SEG_BASE = [0,1,6,8];
 const SITUACIONES = [["Aún no he solicitado la dependencia",0],["Ya tengo el grado y espero el PIA",1],["Tengo PIA pero no hay plaza",20],["Cuido a un familiar",4],["Mi familiar ha empeorado",18],["No estoy de acuerdo con una resolución",19],["Me mudo de comunidad",21],["¿Qué cambia con la Ley 4/2026?",8]];
 const norm = (x) => x.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -296,6 +316,8 @@ function App() {
   const [filtro, setFiltro] = useState("Todas");
   const [abierta, setAbierta] = useState(null);
   const [paso, setPaso] = useState(0);
+  const [impDocs, setImpDocs] = useState(false);
+  const [okDocs, setOkDocs] = useState({});
   const [resp, setResp] = useState({});
   const [copiado, setCopiado] = useState(false);
   const [grado, setGrado] = useState("II");
@@ -323,6 +345,7 @@ function App() {
       await d.save({ filename: "plan-de-intervencion.txt", data: new Blob([textoPlan(resp, res)], { type: "text/plain" }) });
     } catch (e) { if (!e || e.code !== "declined") setAviso("No se pudo descargar. Usa Copiar o Imprimir."); }
   };
+  const imprimirDocs = () => { setImpDocs(true); const fin = () => { setImpDocs(false); window.removeEventListener("afterprint", fin); }; window.addEventListener("afterprint", fin); setTimeout(() => { try { window.print(); } catch (e) { fin(); } }, 150); };
   const imprimir = () => { try { window.print(); } catch (e) { setAviso("No se pudo abrir la impresión. Usa Descargar o Copiar."); } };
 
   const tabs = [["nov", "Novedades", "📰"], ["asi", "Asistente de situación", "🧭"], ["bot", "Habla con Olivia", "🫒"], ["rec", "Calculadora y glosario", "🧮"]];
@@ -457,7 +480,41 @@ function App() {
 
         {tab === "rec" && (
           <section className="space-y-6">
+            <div className={"bg-white rounded-2xl shadow-sm border border-slate-100 p-6" + (impDocs ? " noprint" : "")}>
+              <h2 className="text-xl font-bold mb-1">📞 Dónde acudir y cómo tramitar</h2>
+              <p className="text-sm text-slate-500 mb-3">Canales oficiales de la Junta de Andalucía. Comprueba siempre los datos en su web.</p>
+              <ul className="space-y-2 text-slate-700">
+                <li><b>Información general sobre dependencia:</b> <a className="underline font-semibold" style={{ color: "var(--gt)" }} href="tel:900166170">900 166 170</a></li>
+                <li><b>Consultas sobre un expediente:</b> <a className="underline font-semibold" style={{ color: "var(--gt)" }} href="tel:012">012</a> o <a className="underline font-semibold" style={{ color: "var(--gt)" }} href="tel:955012012">955 012 012</a>. Para conocer el estado del expediente hay que pedir cita previa.</li>
+                <li><a className="underline font-semibold" style={{ color: "var(--gt)" }} href="https://tuturno.juntadeandalucia.es/micitaprevia/operaciones" target="_blank" rel="noopener noreferrer">Pedir cita previa</a> (elige "Atención a la Dependencia").</li>
+                <li><a className="underline font-semibold" style={{ color: "var(--gt)" }} href="https://www.juntadeandalucia.es/agenciadeserviciossocialesydependencia/ved/login" target="_blank" rel="noopener noreferrer">Ventanilla Electrónica de la Dependencia</a>: presentar la solicitud, pedir la revisión del grado y consultar el expediente.</li>
+                <li><b>Servicios Sociales Comunitarios:</b> los de tu municipio o mancomunidad atienden de forma presencial. Pregunta en tu ayuntamiento.</li>
+              </ul>
+              <p className="text-sm font-semibold mt-4 mb-2">Delegaciones territoriales de la Consejería, por provincia:</p>
+              <div className="flex flex-wrap gap-2">
+                {PROVINCIAS.map(([n, k]) => (<a key={k} href={DELEG + k + ".html"} target="_blank" rel="noopener noreferrer" className={"px-4 py-2 rounded-full bg-white border border-green-200 hover:bg-green-50 text-sm font-semibold " + focus} style={{ color: "var(--gt)" }}>{n}</a>))}
+              </div>
+            </div>
             <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+              <h2 className="text-xl font-bold mb-1">📄 Documentos que suelen pedir</h2>
+              <p className="printonly text-sm">Lista orientativa · {new Date().toLocaleDateString("es-ES")}</p>
+              <p className="text-sm text-slate-500 mb-3 noprint">Marca lo que ya tienes. Puedes imprimir la lista para llevarla a la cita.</p>
+              <ul className="space-y-2">
+                {DOCS.map((d, i) => (
+                  <li key={i}><label className="flex gap-3 items-start cursor-pointer"><input type="checkbox" checked={!!okDocs[i]} onChange={() => setOkDocs({ ...okDocs, [i]: !okDocs[i] })} className="mt-1 w-5 h-5" style={{ accentColor: G }} /><span className="text-slate-700">{d}</span></label></li>))}
+              </ul>
+              <p className="text-xs text-slate-500 mt-3">Orientativo: los Servicios Sociales pueden pedir otros documentos según tu caso.</p>
+              <button onClick={imprimirDocs} className={"noprint mt-4 px-5 py-2 rounded-full text-white font-bold " + focus} style={{ background: G }}>🖨️ Imprimir la lista</button>
+            </div>
+            <div className={"bg-white rounded-2xl shadow-sm border border-slate-100 p-6" + (impDocs ? " noprint" : "")}>
+              <h2 className="text-xl font-bold mb-3">🗓️ Calendario de la Ley 4/2026</h2>
+              <ol className="space-y-4 border-l-4 pl-4" style={{ borderColor: "#7bc47f" }}>
+                {CALENDARIO.map(([f, t, d]) => (
+                  <li key={f}><p className="text-sm font-bold" style={{ color: "var(--gt)" }}>{f}</p><p className="font-semibold">{t}</p><p className="text-slate-700 text-sm">{d}</p></li>))}
+              </ol>
+              <p className="text-xs text-slate-500 mt-3">Fuente: Ley 4/2026, de 1 de octubre (BOE-A-2026-20528). Plazos orientativos: confirma en el BOE.</p>
+            </div>
+            <div className={"bg-white rounded-2xl shadow-sm border border-slate-100 p-6" + (impDocs ? " noprint" : "")}>
               <h2 className="text-xl font-bold flex items-center gap-2"><Home size={20} style={{ color: "var(--gt)" }} />Simulador de horas de SAD al mes</h2>
               <p className="text-sm text-slate-500 mb-3">Intensidades orientativas para Andalucía según fuentes divulgativas, sin confirmar en la Orden. La cifra concreta la fija el PIA. Si el PIA incluye también centro de día (grado II nivel 2 y grado III), el SAD tiene como máximo 22 horas al mes, de lunes a viernes.</p>
               <div className="flex gap-2 mb-4" role="group" aria-label="Grado">
@@ -474,7 +531,7 @@ function App() {
                 <p className="text-sm text-slate-600">Unas {(horas / 4.345).toFixed(1)} horas por semana</p>
               </div>
             </div>
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            <div className={"bg-white rounded-2xl shadow-sm border border-slate-100 p-6" + (impDocs ? " noprint" : "")}>
               <h2 className="text-xl font-bold flex items-center gap-2 mb-3"><BookOpen size={20} style={{ color: "var(--gt)" }} />Glosario</h2>
               <dl className="divide-y divide-slate-200">
                 {GLOSARIO.map(([t, d]) => (
@@ -485,7 +542,7 @@ function App() {
         )}
       </main>
       <footer className="noprint max-w-4xl mx-auto px-5 pb-28 sm:pb-10 text-xs text-slate-500 text-center">
-        Herramienta informativa no oficial, en pruebas. Sin vinculación con la Junta de Andalucía ni con la ASSDA. No sustituye el asesoramiento de Servicios Sociales. No se guarda ningún dato personal. Última actualización: 24 de octubre de 2026.
+        Herramienta informativa no oficial, en pruebas. Sin vinculación con la Junta de Andalucía ni con la ASSDA. No sustituye el asesoramiento de Servicios Sociales. No se guarda ningún dato personal. Última actualización: 25 de octubre de 2026.
       </footer>
       <nav className="noprint sm:hidden fixed bottom-0 inset-x-0 z-20 bg-white/90 backdrop-blur border-t border-slate-200 grid grid-cols-4" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }} aria-label="Secciones">
         {tabs.map(([id, n, e]) => (
