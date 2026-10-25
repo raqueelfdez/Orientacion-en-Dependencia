@@ -2,7 +2,10 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orientador de Dependencia - Andalucía</title>
-<meta name="description" content="Guía orientativa, gratuita y no oficial para familias y profesionales de Andalucía: solicitud de dependencia, PIA, recursos, copago y novedades de la Ley 4/2026.">
+<meta name="author" content="Raquel Fernández"><meta name="copyright" content="© 2026 Raquel Fernández. CC BY-NC-ND 4.0">
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es">
+<!-- © 2026 Raquel Fernández. Proyecto personal e independiente, sin vinculación con la Junta de Andalucía. Licencia CC BY-NC-ND 4.0: https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es -->
+<meta name="description" content="Guía orientativa, gratuita e independiente (sin vinculación con la Junta de Andalucía) para familias y profesionales de Andalucía: solicitud de dependencia, PIA, recursos, copago y novedades de la Ley 4/2026.">
 <meta property="og:type" content="website"><meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Tu camino en la dependencia, paso a paso · Guía orientativa">
 <meta property="og:description" content="Guía orientativa y no oficial: solicitud, PIA, recursos, copago y la Ley 4/2026. Con Olivia, tu asesora virtual.">
@@ -412,7 +415,7 @@ function App() {
       <header className="hero text-white noprint">
         <div className="max-w-4xl mx-auto px-5 pt-6 pb-8 sm:pt-10 sm:pb-14">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-sm">🧭 Guía orientativa y no oficial · en pruebas · Octubre 2026</p>
+            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-sm">🧭 Guía orientativa · Proyecto independiente · en pruebas · Oct 2026</p>
             <div className="flex gap-2">
             <button onClick={() => setFacil(!facil)} aria-pressed={facil} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{facil ? "✅ Lectura fácil" : "🔤 Lectura fácil"}</button>
             <button onClick={() => setOscuro(!oscuro)} aria-pressed={oscuro} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{oscuro ? "☀️ Modo claro" : "🌙 Modo oscuro"}</button>
@@ -438,7 +441,7 @@ function App() {
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="noprint flex gap-2 items-start bg-amber-50 border-2 border-amber-300 text-amber-900 rounded-2xl p-4 text-sm mb-6" role="note">
           <AlertTriangle size={18} className="shrink-0 mt-0.5" />
-          <div><p className="font-bold text-base">🧭 Esto es una orientación, no la verdad absoluta</p><p className="mt-1">Resume normas y trámites para ayudarte a situarte, pero no valora tu caso ni sustituye a los Servicios Sociales. Las normas y los datos cambian y puede haber errores. Antes de decidir nada, comprueba en el BOE, el BOJA y la web de la Junta, y consulta con tus Servicios Sociales.</p></div>
+          <div><p className="font-bold text-base">🧭 Esto es una orientación, no la verdad absoluta</p><p className="mt-1">Es un proyecto personal e independiente, sin relación con la Junta de Andalucía ni con ninguna administración. Resume normas y trámites para ayudarte a situarte, pero no valora tu caso ni sustituye a los Servicios Sociales. Las normas y los datos cambian y puede haber errores. Antes de decidir nada, comprueba en el BOE, el BOJA y la web de la Junta, y consulta con tus Servicios Sociales.</p></div>
         </div>
 
         {tab === "nov" && (
@@ -605,7 +608,7 @@ function App() {
         )}
       </main>
       <footer className="noprint max-w-4xl mx-auto px-5 pb-28 sm:pb-10 text-xs text-slate-500 text-center">
-        Herramienta informativa y orientativa, no oficial y en pruebas: no es una fuente legal ni una valoración de tu caso. Sin vinculación con la Junta de Andalucía ni con la ASSDA. No sustituye el asesoramiento de Servicios Sociales. No se guarda ningún dato personal. Última actualización: 25 de octubre de 2026.
+        Proyecto personal e independiente, sin vinculación, encargo ni respaldo de la Junta de Andalucía, la ASSDA ni ninguna otra administración. Herramienta informativa y orientativa, en pruebas: no es una fuente legal ni una valoración de tu caso, y no sustituye el asesoramiento de los Servicios Sociales. No se guarda ningún dato personal. Última actualización: 25 de octubre de 2026. © 2026 Raquel Fernández. Obra protegida bajo licencia CC BY-NC-ND 4.0: puedes compartir el enlace citando la autoría, pero no usarla con fines comerciales ni modificarla o presentarla como propia.
       </footer>
       <nav className="noprint sm:hidden fixed bottom-0 inset-x-0 z-20 bg-white/90 backdrop-blur border-t border-slate-200 grid grid-cols-4" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }} aria-label="Secciones">
         {tabs.map(([id, n, e]) => (
