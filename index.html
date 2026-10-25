@@ -2,10 +2,10 @@
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Orientador de Dependencia - Andalucía</title>
-<meta name="description" content="Guía gratuita y no oficial para familias y profesionales de Andalucía: solicitud de dependencia, PIA, recursos, copago y novedades de la Ley 4/2026.">
+<meta name="description" content="Guía orientativa, gratuita y no oficial para familias y profesionales de Andalucía: solicitud de dependencia, PIA, recursos, copago y novedades de la Ley 4/2026.">
 <meta property="og:type" content="website"><meta property="og:locale" content="es_ES">
-<meta property="og:title" content="Tu camino en la dependencia, paso a paso · Andalucía">
-<meta property="og:description" content="Orientador no oficial: solicitud, PIA, recursos, copago y la Ley 4/2026. Con Olivia, tu asesora virtual.">
+<meta property="og:title" content="Tu camino en la dependencia, paso a paso · Guía orientativa">
+<meta property="og:description" content="Guía orientativa y no oficial: solicitud, PIA, recursos, copago y la Ley 4/2026. Con Olivia, tu asesora virtual.">
 <meta property="og:url" content="https://raqueelfdez.github.io/Orientacion-en-Dependencia/">
 <meta property="og:image" content="https://raqueelfdez.github.io/Orientacion-en-Dependencia/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Tu camino en la dependencia, paso a paso. Orientador no oficial para Andalucía.">
@@ -209,7 +209,8 @@ const FUENTES = [
   ["Ventanilla Electrónica de la Dependencia", "https://www.juntadeandalucia.es/agenciadeserviciossocialesydependencia/ved/login", "Revisado el 25-10-2026"],
   ["Delegaciones territoriales de la Consejería", "https://www.juntadeandalucia.es/organismos/serviciossocialesfamiliaseigualdad/consejeria/delegaciones.html", "Revisado el 25-10-2026"],
   ["Real Decreto-ley 17/2026 (BOE 24-6-2026)", "", "Financiación. Consultado en fuentes secundarias"],
-  ["Horas de SAD y umbrales de copago en Andalucía", "", "Sin confirmar en la normativa de la Junta (Órdenes de 2007)"],
+  ["Orden de 27 de julio de 2023, del Servicio de Ayuda a Domicilio en Andalucía (BOJA extraordinario n.º 21, 28-7-2023)", "https://www.juntadeandalucia.es/boja/2023/521/1", "Verificado el 25-10-2026: art. 14 (22 h/mes con centro de día) y que deroga la Orden de 2007. No he podido leer el Anexo II (horas por grado) ni el Anexo III (participación en el coste)"],
+  ["Orden en preparación sobre capacidad económica y copago (Agencia de Servicios Sociales y Dependencia)", "https://www.juntadeandalucia.es/servicios/participacion/normativa/consulta-previa/detalle/584002.html", "Consulta pública previa de mayo de 2025. Los criterios de copago están hoy repartidos en varias normas: confirma cuál se aplica a tu caso"],
 ];
 const PROVINCIAS = [["Almería","almeria"],["Cádiz","cadiz"],["Córdoba","cordoba"],["Granada","granada"],["Huelva","huelva"],["Jaén","jaen"],["Málaga","malaga"],["Sevilla","sevilla"]];
 const DELEG = "https://www.juntadeandalucia.es/organismos/serviciossocialesfamiliaseigualdad/consejeria/delegaciones/";
@@ -236,11 +237,11 @@ const RESP = [
   [["pecef","pevs","diferencia"], "La PECEF es una ayuda excepcional para cuidados en el entorno familiar. La PEVS ayuda a pagar un servicio privado cuando no hay plaza o servicio público disponible. Cuál corresponde lo decide el PIA."],
   [["pecef","cuidador","cuidadora","familiar","cuidados en el entorno"], "La PECEF es excepcional. La Ley 4/2026 permite que la persona cuidadora sea del ámbito familiar o relacional, incorpora sus derechos y elimina el plazo suspensivo de dos años (la espera para empezar a cobrar). Se aplica desde el 23 de octubre de 2026; confirma con Servicios Sociales cómo lo gestiona Andalucía."],
   [["pevs","vinculada","servicio privado"], "La PEVS se concede solo cuando no hay un servicio público adecuado disponible, y se destina a pagar el servicio privado acreditado."],
-  [["copago","calcula","iprem","capacidad","pagar","coste"], "El copago depende de tu capacidad económica (renta y patrimonio) comparada con el IPREM y del servicio. La Ley 4/2026 encarga al Consejo Territorial nuevos criterios que excluirán la vivienda habitual y fijarán mínimos exentos, pero mientras no haya acuerdo siguen las reglas actuales. Pide una simulación en Servicios Sociales."],
+  [["copago","calcula","iprem","capacidad","pagar","coste"], "El copago depende de tu capacidad económica (renta y patrimonio) comparada con el IPREM y del servicio. La Ley 4/2026 encarga al Consejo Territorial nuevos criterios que excluirán la vivienda habitual y fijarán mínimos exentos, pero mientras no haya acuerdo siguen las reglas actuales. En Andalucía se preparaba una nueva orden para unificar los criterios de copago (consulta pública previa de 2025): confirma si ya se ha aprobado. Pide una simulación en Servicios Sociales."],
   [["irpf","hacienda","impuesto","declaracion de la renta","tributa"], "Desde el 23 de octubre de 2026 quedan exentas de IRPF las prestaciones económicas de dependencia para cuidados en el entorno familiar, vinculadas al servicio, de asistencia personal y de cuidados y apoyos en viviendas. Para tu declaración, consulta a la Agencia Tributaria o a una persona asesora fiscal."],
   [["ley 4","4/2026","reforma","novedad","novedades","entra en vigor","vigor"], "La Ley 4/2026, de 1 de octubre (BOE 3-10-2026), reforma la Ley 39/2006 y la Ley General de discapacidad. Entra en vigor el 23 de octubre de 2026. Trae teleasistencia como derecho subjetivo, fin de las incompatibilidades estatales, nuevos servicios y cambios en la PECEF. Su aplicación en Andalucía depende de su desarrollo."],
   [["teleasistencia"], "La Ley 4/2026 reconoce la teleasistencia como derecho subjetivo para toda persona en situación de dependencia, en cualquier grado. Todavía hay que ver cómo y cuándo se aplica en Andalucía. Pregunta en tus Servicios Sociales."],
-  [["sad","ayuda a domicilio","horas","domicilio"], "El SAD se concede por horas mensuales según el grado. Orientativamente, según fuentes divulgativas para Andalucía: grado I, de 20 a 37 h; grado II, de 38 a 64 h; grado III, de 65 a 94 h (cifras sin confirmar en la Orden). Si hay también centro de día, el máximo es de 22 h al mes. La cifra concreta la fija el PIA. La Ley 4/2026 amplía el SAD al entorno próximo y permite organizarlo de forma colectiva."],
+  [["sad","ayuda a domicilio","horas","domicilio"], "El SAD se concede por horas mensuales según el grado. Orientativamente, según fuentes divulgativas para Andalucía: grado I, de 20 a 37 h; grado II, de 38 a 64 h; grado III, de 65 a 94 h (cifras sin confirmar en el Anexo II de la Orden de 27-7-2023, que regula hoy el SAD en Andalucía). Si es compatible con centro de día o de noche, son 22 h al mes de lunes a viernes. La cifra concreta la fija el PIA. La Ley 4/2026 amplía el SAD al entorno próximo y permite organizarlo de forma colectiva."],
   [["discapacidad","33","65","equipar","equipara"], "La Ley 4/2026 equipara dependencia grado I con un 33 % de discapacidad y los grados II y III con un 65 %, solo en los ámbitos que la ley prevea y sin efecto tributario. Puedes pedir la valoración de tu discapacidad real si te conviene."],
   [["compatible","compatibilidad","incompatible","incompatibilidad","combinar"], "La Ley 4/2026 suprime las incompatibilidades estatales entre prestaciones, pero mantiene las de cada comunidad. En Andalucía, hasta que la Junta las cambie, siguen las suyas. Confirma cada combinación con Servicios Sociales."],
   [["plazo","valoracion","tarda","tiempo","espera"], "Los plazos reales varían por provincia. Desde el 23 de octubre de 2026, la Ley 4/2026 fija un plazo máximo de tres meses para resolver el reconocimiento de la dependencia. Si transcurren seis meses desde la solicitud sin resolución expresa, el derecho de acceso a las prestaciones se genera igualmente. Consulta el estado en la Ventanilla Electrónica."],
@@ -280,7 +281,7 @@ function respuestaLocal(q) { const i = buscar(q); return i < 0 ? { content: FALL
 const SISTEMA = "Te llamas Olivia y eres la asesora virtual experta en el Sistema para la Autonomía y Atención a la Dependencia (SAAD) en Andalucía y en los procedimientos de la Junta de Andalucía (ASSDA, Servicios Sociales Comunitarios, Ventanilla Electrónica, PIA, SAD, PECEF, PEVS, copago). Hablas en español, con tono cercano y claro, en respuestas breves (máximo unos 150 palabras). Si te falta un dato clave, haz una sola pregunta. No inventes cuantías, plazos ni artículos de normas: si no estás seguro, dilo y remite al BOJA, a la sede de la Junta o a los Servicios Sociales de su zona. No des garantías de concesión: el PIA lo resuelve la administración. Conoces la Ley 4/2026, de 1 de octubre (BOE 3-10-2026): equipara dependencia grado I a 33 % de discapacidad y grados II y III a 65 % (sin efecto tributario); reconoce la teleasistencia como derecho subjetivo; añade asistencia personal, viviendas con apoyos y productos de apoyo al catálogo; amplía el SAD al entorno próximo y a la modalidad colectiva; suprime las incompatibilidades estatales pero mantiene las autonómicas; elimina el plazo suspensivo de dos años de la PECEF; amplía la EVE a 3-6 años; y encarga al Consejo Territorial nuevos criterios de capacidad económica y copago. Entra en vigor a los 20 días de su publicación (el 23-10-2026) y necesita desarrollo, así que no afirmes que ya se aplica en Andalucía. Fija un plazo máximo de tres meses para resolver el reconocimiento de la dependencia, exime de IRPF la PEVS, la PECEF, la asistencia personal y la de cuidados en viviendas, y obliga al Estado a asumir al menos el 50 % del gasto certificado. Eres una herramienta no oficial en pruebas, sin vinculación con la Junta de Andalucía. Responde solo sobre dependencia y servicios sociales.";
 
 function Chat() {
-  const [msgs, setMsgs] = useState([{ role: "assistant", content: "¡Hola! Soy Olivia, tu asesora en dependencia. Cuéntame tu situación con tus palabras o elige la que más se parezca a la tuya y te oriento." }]);
+  const [msgs, setMsgs] = useState([{ role: "assistant", content: "¡Hola! Soy Olivia, tu asesora en dependencia. Te oriento de forma general, pero no valoro tu caso ni sustituyo a los Servicios Sociales. Cuéntame tu situación con tus palabras o elige la que más se parezca a la tuya." }]);
   const [txt, setTxt] = useState("");
   const [busy, setBusy] = useState(false);
   const fin = React.useRef(null);
@@ -308,7 +309,7 @@ function Chat() {
         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl shadow" aria-hidden="true">🫒</div>
         <div>
           <h2 className="text-xl font-bold leading-none">Olivia</h2>
-          <p className="text-sm text-green-50 mt-1"><span className="inline-block w-2 h-2 rounded-full bg-lime-300 mr-1.5" />Tu asesora en dependencia · Andalucía</p>
+          <p className="text-sm text-green-50 mt-1"><span className="inline-block w-2 h-2 rounded-full bg-lime-300 mr-1.5" />Te orienta, no valora tu caso · Andalucía</p>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50" aria-live="polite">
@@ -410,7 +411,7 @@ function App() {
       <header className="hero text-white noprint">
         <div className="max-w-4xl mx-auto px-5 pt-6 pb-8 sm:pt-10 sm:pb-14">
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-sm">🧪 Herramienta no oficial · en pruebas · Octubre 2026</p>
+            <p className="inline-block bg-white/15 rounded-full px-3 py-1 text-sm">🧭 Guía orientativa y no oficial · en pruebas · Octubre 2026</p>
             <div className="flex gap-2">
             <button onClick={() => setFacil(!facil)} aria-pressed={facil} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{facil ? "✅ Lectura fácil" : "🔤 Lectura fácil"}</button>
             <button onClick={() => setOscuro(!oscuro)} aria-pressed={oscuro} className={`px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-sm font-bold ${focus}`}>{oscuro ? "☀️ Modo claro" : "🌙 Modo oscuro"}</button>
@@ -434,9 +435,9 @@ function App() {
       </nav>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="noprint flex gap-2 items-start bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 text-sm mb-6" role="note">
+        <div className="noprint flex gap-2 items-start bg-amber-50 border-2 border-amber-300 text-amber-900 rounded-2xl p-4 text-sm mb-6" role="note">
           <AlertTriangle size={18} className="shrink-0 mt-0.5" />
-          <p>Herramienta orientativa. Cuantías, plazos y compatibilidades deben comprobarse en el BOJA, en la sede de la Junta y con los Servicios Sociales antes de aplicarlos a un caso real.</p>
+          <div><p className="font-bold text-base">🧭 Esto es una orientación, no la verdad absoluta</p><p className="mt-1">Resume normas y trámites para ayudarte a situarte, pero no valora tu caso ni sustituye a los Servicios Sociales. Las normas y los datos cambian y puede haber errores. Antes de decidir nada, comprueba en el BOE, el BOJA y la web de la Junta, y consulta con tus Servicios Sociales.</p></div>
         </div>
 
         {tab === "nov" && (
@@ -505,7 +506,8 @@ function App() {
             ) : (
               <div className="space-y-5">
                 <h2 className="text-xl font-bold">Resultado de la orientación</h2>
-                <p className="printonly text-sm">Plan de intervención orientativo · {new Date().toLocaleDateString("es-ES")}</p>
+                <p className="noprint text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-xl p-3">🧭 Resultado orientativo, no una valoración de tu caso. La administración decide el grado, el PIA y las prestaciones.</p>
+                <p className="printonly text-sm">Plan de intervención ORIENTATIVO, no vinculante ni una valoración del caso · {new Date().toLocaleDateString("es-ES")}</p>
                 <div><h3 className="font-semibold mb-1">Diagnóstico</h3><p className="text-slate-700">{res.diag}</p></div>
                 <div><h3 className="font-semibold mb-1">Recursos recomendados</h3><Lista items={res.recs} /></div>
                 <div><h3 className="font-semibold mb-1 flex items-center gap-1"><HandCoins size={16} />Copago orientativo</h3><p className="text-slate-700">{res.copago}</p></div>
@@ -576,7 +578,7 @@ function App() {
             </div>
             <div className={"bg-white rounded-2xl shadow-sm border border-slate-100 p-6" + (impDocs ? " noprint" : "")}>
               <h2 className="text-xl font-bold flex items-center gap-2"><Home size={20} style={{ color: "var(--gt)" }} />Simulador de horas de SAD al mes</h2>
-              <p className="text-sm text-slate-500 mb-3">Intensidades orientativas para Andalucía según fuentes divulgativas, sin confirmar en la Orden. La cifra concreta la fija el PIA. Si el PIA incluye también centro de día (grado II nivel 2 y grado III), el SAD tiene como máximo 22 horas al mes, de lunes a viernes.</p>
+              <p className="text-sm text-slate-500 mb-3">Intervalos orientativos tomados de fuentes divulgativas: no he podido confirmarlos en el Anexo II de la Orden de 27 de julio de 2023, que es la norma andaluza vigente del SAD. La cifra concreta la fija tu PIA. Si el SAD es compatible con centro de día o de noche, su intensidad es de 22 horas al mes, de lunes a viernes (artículo 14 de esa Orden).</p>
               <div className="flex gap-2 mb-4" role="group" aria-label="Grado">
                 {Object.keys(SAD).map((g) => (
                   <button key={g} onClick={() => setGrado(g)} aria-pressed={grado === g}
@@ -602,7 +604,7 @@ function App() {
         )}
       </main>
       <footer className="noprint max-w-4xl mx-auto px-5 pb-28 sm:pb-10 text-xs text-slate-500 text-center">
-        Herramienta informativa no oficial, en pruebas. Sin vinculación con la Junta de Andalucía ni con la ASSDA. No sustituye el asesoramiento de Servicios Sociales. No se guarda ningún dato personal. Última actualización: 25 de octubre de 2026.
+        Herramienta informativa y orientativa, no oficial y en pruebas: no es una fuente legal ni una valoración de tu caso. Sin vinculación con la Junta de Andalucía ni con la ASSDA. No sustituye el asesoramiento de Servicios Sociales. No se guarda ningún dato personal. Última actualización: 25 de octubre de 2026.
       </footer>
       <nav className="noprint sm:hidden fixed bottom-0 inset-x-0 z-20 bg-white/90 backdrop-blur border-t border-slate-200 grid grid-cols-4" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }} aria-label="Secciones">
         {tabs.map(([id, n, e]) => (
